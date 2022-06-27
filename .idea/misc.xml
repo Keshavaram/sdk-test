@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Blaash/BlaashSDK-with-test-module/Blaash_andriod_sdk/src/main/res/layout/activity_web_view.xml" value="0.17074275362318841" />
+        <entry key="..\:/Blaash/BlaashSDK-with-test-module/test_app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.104" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/activity_web_view.xml" value="0.184375" />
