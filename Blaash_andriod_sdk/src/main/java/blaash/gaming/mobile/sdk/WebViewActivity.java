@@ -1,12 +1,10 @@
 package blaash.gaming.mobile.sdk;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.os.Bundle;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-public class WebViewActivity extends AppCompatActivity {
+public class WebViewActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
