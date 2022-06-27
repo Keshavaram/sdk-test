@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -59,13 +60,20 @@ public class BlaashSDK {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void launch(Context currentContext) throws UnsupportedEncodingException {
-        App_customer app_customer = new App_customer(portal_CustomerId,emailId,facebookId);
-        TokenGeneration tokenGeneration = new TokenGeneration(app_customer);
-        String genToken = tokenGeneration.getTokenToSend();
-        Intent i = new Intent(currentContext,WebViewActivity.class);
-        i.putExtra("token",genToken);
-        currentContext.startActivity(i);
+    public void launch(Context currentContext) {
+      try
+      {
+          App_customer app_customer = new App_customer(portal_CustomerId,emailId,facebookId);
+          TokenGeneration tokenGeneration = new TokenGeneration(app_customer);
+          String genToken = tokenGeneration.getTokenToSend();
+          Intent i = new Intent(currentContext,WebViewActivity.class);
+          i.putExtra("token",genToken);
+          currentContext.startActivity(i);
+      } catch (Exception e)
+      {
+          Toast.makeText(currentContext, "Something went wrong, please try later.", Toast.LENGTH_SHORT).show();
+      }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
