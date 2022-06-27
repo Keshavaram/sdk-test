@@ -14,14 +14,12 @@ public class Token {
     private final String first_name;
     private final String last_name;
     private final String isAnonymous;
-    public final int pid;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Token(@NonNull String first_name, @NonNull String last_name, @NonNull String Portal_CustomerId,
                  @NonNull String emailId, @NonNull String facebookId) {
         this.created_on_timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         this.clientId = BuildConfig.CLIENT_ID;
-        this.pid = 2;
 
         if (Portal_CustomerId.length() == 0 || emailId.length() == 0)
         {

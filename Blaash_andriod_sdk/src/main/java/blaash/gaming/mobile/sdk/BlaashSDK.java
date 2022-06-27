@@ -1,9 +1,15 @@
 package blaash.gaming.mobile.sdk;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +21,10 @@ public class BlaashSDK {
     private  String facebookId;
     private String first_name;
     private String last_name;
-
+    private String store_domain;
 
   public void initialize(String portal_CustomerId, String emailId, String facebookId, String primaryPhoneNumber,
-                           String loggedIn_Customer_first_name, String loggedIn_Customer_last_name) {
+                           String loggedIn_Customer_first_name, String loggedIn_Customer_last_name,String store_domain) {
 
         this.portal_CustomerId= portal_CustomerId;
         this.emailId = emailId;
@@ -26,6 +32,7 @@ public class BlaashSDK {
         this.first_name = loggedIn_Customer_first_name;
         this.last_name = loggedIn_Customer_last_name;
         this.facebookId = facebookId;
+        this.store_domain = store_domain;
     }
 
     private BlaashEvents InitialiseBlaashEvents()
@@ -49,6 +56,16 @@ public class BlaashSDK {
             messageDispatcher.dispatch(customerEventToSend);
         }
         catch (Exception ignored) {}
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void launch(Context currentContext) throws UnsupportedEncodingException {
+        App_customer app_customer = new App_customer(portal_CustomerId,emailId,facebookId);
+        TokenGeneration tokenGeneration = new TokenGeneration(app_customer);
+        String genToken = tokenGeneration.getTokenToSend();
+        Intent i = new Intent(currentContext,WebViewActivity.class);
+        i.putExtra("token",genToken);
+        currentContext.startActivity(i);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
