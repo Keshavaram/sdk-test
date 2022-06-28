@@ -23,7 +23,5 @@ public class WebViewActivity extends Activity {
         String url = BuildConfig.UI_URL + "/?token=" + token + "&pid=78342";
         webView.loadUrl(url);
         Log.e("WebViewActivity", "onCreate: launching url = " + url);
-
-        findViewById(R.id.button).setOnClickListener(v -> finish());
     }
 }
