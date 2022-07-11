@@ -92,6 +92,17 @@ public class BlaashSDK {
         catch (Exception ignored) {}
     }
 
+    public void notifySignOut()
+    {
+        this.portal_CustomerId= null;
+        this.emailId = null;
+        this.primaryPhoneNumber = null;
+        this.first_name = null;
+        this.last_name = null;
+        this.facebookId = null;
+        this.store_domain = null;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void notifyReview(String reviewText, Product productBeingReviewed)
     {
