@@ -25,6 +25,7 @@ public class BlaashSDK implements OnHttpPostComplete {
     private String last_name;
     private String store_domain;
     private PublishProductView publishProductView = PublishProductView.NotConfigured;
+    private volatile boolean fetchedTenantSettings = false;
 
   public void initialize(String portal_CustomerId, String emailId, String facebookId, String primaryPhoneNumber,
                            String loggedIn_Customer_first_name, String loggedIn_Customer_last_name,String store_domain) {
@@ -152,6 +153,7 @@ public class BlaashSDK implements OnHttpPostComplete {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void notifyProductView(Product product)
     {
+        while(!fetchedTenantSettings);
         try
         {
             if(publishProductView == PublishProductView.Publish) {
@@ -182,6 +184,7 @@ public class BlaashSDK implements OnHttpPostComplete {
             } else {
                 publishProductView = PublishProductView.Restricted;
             }
+            fetchedTenantSettings = true;
         } catch (JSONException ignored){}
     }
 }
