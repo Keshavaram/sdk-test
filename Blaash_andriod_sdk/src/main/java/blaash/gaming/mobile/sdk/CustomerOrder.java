@@ -10,24 +10,24 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class CustomerOrder {
     public long orderId;
-    public float orderGrandTotal;
-    public float orderSubTotal;
-    public float orderShippingAmount;
-    public float orderDiscountAmount;
-    public float orderTaxAmount;
+    public String orderGrandTotal;
+    public String orderSubTotal;
+    public String orderShippingAmount;
+    public String orderDiscountAmount;
+    public String orderTaxAmount;
     public String couponCodeUsed;
     public String storeName;
     public String storeCode;
     public String orderStatus;
 
-    public  Address ShippingAddress;
-    public  Address BillingAddress;
+    public  Address shippingAddress;
+    public  Address billingAddress;
 
     public String orderCreatedAt;
     public List<Product> orderProductInformation;
 
-    protected CustomerOrder(long orderId, float orderGrandTotal, float orderSubTotal, float orderShippingAmount,
-                            float orderDiscountAmount, float orderTaxAmount, String couponCodeUsed, String storeName,
+    protected CustomerOrder(long orderId, String orderGrandTotal, String orderSubTotal, String orderShippingAmount,
+                            String orderDiscountAmount, String orderTaxAmount, String couponCodeUsed, String storeName,
                             String storeCode, String orderStatus, Address shippingAddress, Address billingAddress,
                             List<Product> orderProductInformation) {
         this.orderId = orderId;
@@ -40,8 +40,8 @@ public class CustomerOrder {
         this.storeName = storeName;
         this.storeCode = storeCode;
         this.orderStatus = orderStatus;
-        this.ShippingAddress = shippingAddress;
-        this.BillingAddress = billingAddress;
+        this.shippingAddress = shippingAddress;
+        this.billingAddress = billingAddress;
         this.orderProductInformation = orderProductInformation;
         this.orderCreatedAt = Instant.now().toString();
     }

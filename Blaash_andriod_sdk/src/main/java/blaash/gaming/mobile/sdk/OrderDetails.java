@@ -2,11 +2,11 @@ package blaash.gaming.mobile.sdk;
 
 public class OrderDetails {
     public long orderId;
-    public float orderGrandTotal;
-    public float orderSubTotal;
-    public float orderShippingAmount;
-    public float orderDiscountAmount;
-    public float orderTaxAmount;
+    public String orderGrandTotal;
+    public String orderSubTotal;
+    public String orderShippingAmount;
+    public String orderDiscountAmount;
+    public String orderTaxAmount;
     public String couponCodeUsed;
     public String storeName;
     public String storeCode;
@@ -20,43 +20,43 @@ public class OrderDetails {
         this.orderId = orderId;
     }
 
-    public float getOrderGrandTotal() {
+    public String getOrderGrandTotal() {
         return orderGrandTotal;
     }
 
-    public void setOrderGrandTotal(float orderGrandTotal) {
+    public void setOrderGrandTotal(String orderGrandTotal) {
         this.orderGrandTotal = orderGrandTotal;
     }
 
-    public float getOrderSubTotal() {
+    public String getOrderSubTotal() {
         return orderSubTotal;
     }
 
-    public void setOrderSubTotal(float orderSubTotal) {
+    public void setOrderSubTotal(String orderSubTotal) {
         this.orderSubTotal = orderSubTotal;
     }
 
-    public float getOrderShippingAmount() {
+    public String getOrderShippingAmount() {
         return orderShippingAmount;
     }
 
-    public void setOrderShippingAmount(float orderShippingAmount) {
+    public void setOrderShippingAmount(String orderShippingAmount) {
         this.orderShippingAmount = orderShippingAmount;
     }
 
-    public float getOrderDiscountAmount() {
+    public String getOrderDiscountAmount() {
         return orderDiscountAmount;
     }
 
-    public void setOrderDiscountAmount(float orderDiscountAmount) {
+    public void setOrderDiscountAmount(String orderDiscountAmount) {
         this.orderDiscountAmount = orderDiscountAmount;
     }
 
-    public float getOrderTaxAmount() {
+    public String getOrderTaxAmount() {
         return orderTaxAmount;
     }
 
-    public void setOrderTaxAmount(float orderTaxAmount) {
+    public void setOrderTaxAmount(String orderTaxAmount) {
         this.orderTaxAmount = orderTaxAmount;
     }
 
