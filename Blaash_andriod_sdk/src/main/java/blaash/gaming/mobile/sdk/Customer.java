@@ -15,7 +15,7 @@ public class Customer {
     public String customerCreatedStoreName;
     public String customerPrimaryNumber;
     public String customerIsdCode;
-    public String customerCreatedAt;//TODO Review the format
+    public String customerCreatedAt;
 
     public String CustomerReferralCode;
 

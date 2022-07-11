@@ -2,7 +2,6 @@ package blaash.gaming.mobile.sdk;
 
 public class Product {
     public String productSKU;
-
     public String productDisplayName;
     public String productShortName;
     public String productURL;

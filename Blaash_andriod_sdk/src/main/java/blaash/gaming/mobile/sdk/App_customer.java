@@ -16,13 +16,23 @@ public class App_customer {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     protected App_customer(@NonNull String portalCustomerId, @NonNull String emailId,
-                        @NonNull String facebookId,boolean isAnonymous,String store_domain) {
+                        @NonNull String facebookId) {
         this.created_on_timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         this.clientId = BuildConfig.CLIENT_ID;
-        this.portal_CustomerId = portalCustomerId;
-        this.emailId = emailId;
-        this.facebookId = facebookId;
-        this.isAnonymous = isAnonymous;
-        this.store_domain = store_domain;
+        store_domain = "";
+
+        if (portalCustomerId.length() == 0 || emailId.length() == 0)
+        {
+            this.portal_CustomerId = created_on_timestamp;
+            this.emailId = created_on_timestamp + "@dummyemail.com";
+            this.facebookId = "";
+            this.isAnonymous = true;
+        } else
+        {
+            this.portal_CustomerId = portalCustomerId;
+            this.emailId = emailId;
+            this.facebookId = facebookId;
+            this.isAnonymous = false;
+        }
     }
 }
