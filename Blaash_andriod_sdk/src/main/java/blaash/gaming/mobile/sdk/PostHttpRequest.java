@@ -1,6 +1,7 @@
 package blaash.gaming.mobile.sdk;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -26,12 +27,13 @@ public class PostHttpRequest extends AsyncTask<String,Void,String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected String doInBackground(String... params) {
+        Log.e("PostHttpRequest", "doInBackground: JSON = " + params[1]);
         Request req = new Request.Builder()
-                .url(strings[0])
+                .url(params[0])
                 .addHeader("x-tenant-key",BuildConfig.CLIENT_ID)
                 .addHeader("x-api-key",BuildConfig.API_KEY)
-                .post(RequestBody.create(MediaType.parse("application.json;charset=utf-8"),strings[1]))
+                .post(RequestBody.create(MediaType.parse("application.json;charset=utf-8"),params[1]))
                 .build();
         OkHttpClient okHttpClient = new OkHttpClient();
         Call call = okHttpClient.newCall(req);
