@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -35,7 +36,13 @@ public class PostHttpRequest extends AsyncTask<String,Void,String> {
                 .addHeader("x-api-key",BuildConfig.API_KEY)
                 .post(RequestBody.create(MediaType.parse("application.json;charset=utf-8"),params[1]))
                 .build();
-        OkHttpClient okHttpClient = new OkHttpClient();
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(30, TimeUnit.SECONDS);
+        builder.readTimeout(30, TimeUnit.SECONDS);
+        builder.writeTimeout(30, TimeUnit.SECONDS);
+
+        OkHttpClient okHttpClient = builder.build();
         Call call = okHttpClient.newCall(req);
         Response response;
         try
