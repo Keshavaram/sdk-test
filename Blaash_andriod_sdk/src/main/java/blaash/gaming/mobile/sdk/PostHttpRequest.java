@@ -24,6 +24,7 @@ public class PostHttpRequest extends AsyncTask<String,Void,String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+//        Log.e("TAG", "onPostExecute: Done with post req");
         apiCallComplete.notify(s);
     }
 
@@ -49,7 +50,7 @@ public class PostHttpRequest extends AsyncTask<String,Void,String> {
         {
             response = call.execute();
             return Objects.requireNonNull(response.body()).string();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

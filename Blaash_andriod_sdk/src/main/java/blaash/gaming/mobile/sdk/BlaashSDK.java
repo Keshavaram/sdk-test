@@ -16,53 +16,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlaashSDK implements OnHttpPostComplete {
-
     private String portal_CustomerId;
     private String emailId;
     private String primaryPhoneNumber;
-    private  String facebookId;
+    private String facebookId;
     private String first_name;
     private String last_name;
     private String store_domain;
-    private PublishProductView publishProductView = PublishProductView.NotConfigured;
-    private volatile boolean fetchedTenantSettings = false;
+    private PublishProductView publishProductView = PublishProductView.Publish;
+    private boolean fetchedTenantSettings = false;
 
-  public void initialize(String portal_CustomerId, String emailId, String facebookId, String primaryPhoneNumber,
-                           String loggedIn_Customer_first_name, String loggedIn_Customer_last_name,String store_domain) {
+    public void initialize(String portal_CustomerId, String emailId, String facebookId, String primaryPhoneNumber,
+                           String loggedIn_Customer_first_name, String loggedIn_Customer_last_name, String store_domain) {
 
-        this.portal_CustomerId= portal_CustomerId;
+        this.portal_CustomerId = portal_CustomerId;
         this.emailId = emailId;
         this.primaryPhoneNumber = primaryPhoneNumber;
         this.first_name = loggedIn_Customer_first_name;
         this.last_name = loggedIn_Customer_last_name;
         this.facebookId = facebookId;
         this.store_domain = store_domain;
-        //Create Call a API if NotConfigured
-      if (this.publishProductView == PublishProductView.NotConfigured)
-      {
-          publishStatusApiCall();
-      }
+
+        if (!fetchedTenantSettings) {
+            publishStatusApiCall();
+        }
     }
 
-    private void publishStatusApiCall()
-    {
-        TenantSettingsRequest tenantSettingsRequest = new TenantSettingsRequest("Commerce","SYSTEM","PushProductView");
-        InitiateHttpPost initiateHttpPost = new InitiateHttpPost(tenantSettingsRequest,this,BuildConfig.API_URL2);
+    private void publishStatusApiCall() {
+        TenantSettingsRequest tenantSettingsRequest = new TenantSettingsRequest("Commerce", "SYSTEM", "PushProductView");
+        InitiateHttpPost initiateHttpPost = new InitiateHttpPost(tenantSettingsRequest, this, BuildConfig.API_URL2);
         initiateHttpPost.initiatePostRequest();
     }
 
-    private BlaashEvents InitialiseBlaashEvents()
-    {
+    private BlaashEvents InitialiseBlaashEvents() {
         BlaashEvents blaashEvents;
-        blaashEvents = new BlaashEvents(portal_CustomerId,emailId,facebookId,primaryPhoneNumber,first_name,last_name);
+        blaashEvents = new BlaashEvents(portal_CustomerId, emailId, facebookId, primaryPhoneNumber, first_name, last_name);
         blaashEvents.setEventInfo(new ArrayList<>());
         return blaashEvents;
     }
 
-    private void prepareEventAndSend(Event_information eventData)
-    {
-        try
-        {
+    private void prepareEventAndSend(Event_information eventData) {
+        try {
             BlaashEvents customerEventToSend = InitialiseBlaashEvents();
             List<Event_information> customer_events = new ArrayList<>();
             customer_events.add(eventData);
@@ -70,8 +64,8 @@ public class BlaashSDK implements OnHttpPostComplete {
 
             Dispatch messageDispatcher = new Dispatch();
             messageDispatcher.dispatch(customerEventToSend);
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) {}
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -83,34 +77,30 @@ public class BlaashSDK implements OnHttpPostComplete {
             Intent i = new Intent(currentContext, WebViewActivity.class);
             i.putExtra("token", genToken);
             currentContext.startActivity(i);
-        } catch(UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             Log.e("BlaashSDK", "launch: Unable to launch the webView, please try again");
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void notifyCartChanges(boolean isCartAdded,Product productAddedToCart,float cartGrossTotal,int quantityAdded)
-    {
-        try
-        {
-            Event_information cartInformation = EventProcessor.eventDataFormatter(isCartAdded ? Constants.ADD_TO_CART : Constants.REMOVE_FROM_CART,productAddedToCart,cartGrossTotal,quantityAdded);
+    public void notifyCartChanges(boolean isCartAdded, Product productAddedToCart, float cartGrossTotal, int quantityAdded) {
+        try {
+            Event_information cartInformation = EventProcessor.eventDataFormatter(isCartAdded ? Constants.ADD_TO_CART : Constants.REMOVE_FROM_CART, productAddedToCart, cartGrossTotal, quantityAdded);
             prepareEventAndSend(cartInformation);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
-    public void notifySignUp(Customer customer)
-    {
-        try
-        {
+    public void notifySignUp(Customer customer) {
+        try {
             Event_information customer_eventData = EventProcessor.eventDataFormatter(customer);
             prepareEventAndSend(customer_eventData);
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) {}
     }
 
-    public void notifySignOut()
-    {
-        this.portal_CustomerId= null;
+    public void notifySignOut() {
+        this.portal_CustomerId = null;
         this.emailId = null;
         this.primaryPhoneNumber = null;
         this.first_name = null;
@@ -120,71 +110,64 @@ public class BlaashSDK implements OnHttpPostComplete {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void notifyReview(String reviewText, Product productBeingReviewed)
-    {
-        try
-        {
-            Event_information customer_eventData = EventProcessor.eventDataFormatter(reviewText,productBeingReviewed);
+    public void notifyReview(String reviewText, Product productBeingReviewed) {
+        try {
+            Event_information customer_eventData = EventProcessor.eventDataFormatter(reviewText, productBeingReviewed);
             prepareEventAndSend(customer_eventData);
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) {}
     }
 
-    public void notifyWishListChanges(Product product)
-    {
-        try
-        {
+    public void notifyWishListChanges(Product product) {
+        try {
             Event_information customer_eventData = EventProcessor.eventDataFormatter(product);
             prepareEventAndSend(customer_eventData);
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) {}
     }
 
-    public void notifySearch(String searchText)
-    {
-        try
-        {
+    public void notifySearch(String searchText) {
+        try {
             Event_information customer_eventData = EventProcessor.eventDataFormatter(searchText);
             prepareEventAndSend(customer_eventData);
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) {}
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void notifyProductView(Product product)
-    {
-        while(!fetchedTenantSettings);
-        try
-        {
-            if(publishProductView == PublishProductView.Publish) {
+    public void notifyProductView(Product product) {
+        try {
+            if (publishProductView == PublishProductView.Publish) {
                 Event_information customer_eventData = EventProcessor.eventDataFormatterForProductView(product);
                 prepareEventAndSend(customer_eventData);
             }
-        }
-        catch (Exception ignored) {}
+        } catch (Exception ignored) {}
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void notifyCustomerOrder(OrderDetails orderDetails, AddressDetails addressDetails, List<Product> orderProductInformation)
-    {
-        try
-        {
-            Event_information customer_eventData = EventProcessor.eventDataFormatter(orderDetails,addressDetails,orderProductInformation);
+    public void notifyCustomerOrder(OrderDetails orderDetails, AddressDetails addressDetails, List<Product> orderProductInformation) {
+        try {
+            Event_information customer_eventData = EventProcessor.eventDataFormatter(orderDetails, addressDetails, orderProductInformation);
             prepareEventAndSend(customer_eventData);
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) {}
     }
 
     @Override
     public void notify(String s) {
-        TenantSettingsResponse response = new Gson().fromJson(s,TenantSettingsResponse.class);
-        try {
-            if (Boolean.parseBoolean(response.getData().getString("KeyValue"))) {
-                publishProductView = PublishProductView.Publish;
-            } else {
-                publishProductView = PublishProductView.Restricted;
+        if (s != null) {
+            TenantSettingsResponse response = new Gson().fromJson(s, TenantSettingsResponse.class);
+            try {
+                if (Boolean.parseBoolean(response.getData().getString("KeyValue"))) {
+                    publishProductView = PublishProductView.Publish;
+                } else {
+                    publishProductView = PublishProductView.Restricted;
+                }
+            } catch (JSONException ignored) {
             }
-            fetchedTenantSettings = true;
-        } catch (JSONException ignored){}
+        } else {
+            publishProductView = PublishProductView.Restricted;
+        }
+        fetchedTenantSettings = true;
     }
 }
