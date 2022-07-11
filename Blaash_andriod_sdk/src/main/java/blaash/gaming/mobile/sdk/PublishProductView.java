@@ -4,5 +4,4 @@ public enum PublishProductView {
     NotConfigured,
     Publish,
     Restricted
-
 }

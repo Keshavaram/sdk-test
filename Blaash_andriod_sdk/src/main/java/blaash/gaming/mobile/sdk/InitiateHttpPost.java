@@ -5,11 +5,13 @@ import com.google.gson.GsonBuilder;
 
 class InitiateHttpPost {
     private final Object body;
-    private final Dispatch context;
+    private final OnHttpPostComplete context;
+    private final String url;
 
-    protected InitiateHttpPost(Object body, Dispatch context) {
+    protected InitiateHttpPost(Object body, OnHttpPostComplete context,String url) {
         this.body = body;
         this.context = context;
+        this.url = url;
     }
 
     void initiatePostRequest()
@@ -19,6 +21,6 @@ class InitiateHttpPost {
         Gson gson = builder.setPrettyPrinting().create();
         String jsonBody = gson.toJson(this.body);
         PostHttpRequest post = new PostHttpRequest(this.context);
-        post.execute(Constants.URL,jsonBody);
+        post.execute(url,jsonBody);
     }
 }

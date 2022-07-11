@@ -7,11 +7,15 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlaashSDK {
+public class BlaashSDK implements OnHttpPostComplete {
 
     private String portal_CustomerId;
     private String emailId;
@@ -33,6 +37,17 @@ public class BlaashSDK {
         this.facebookId = facebookId;
         this.store_domain = store_domain;
         //Create Call a API if NotConfigured
+      if (this.publishProductView == PublishProductView.NotConfigured)
+      {
+          publishStatusApiCall();
+      }
+    }
+
+    private void publishStatusApiCall()
+    {
+        TenantSettingsRequest tenantSettingsRequest = new TenantSettingsRequest("Commerce","SYSTEM","PushProductView");
+        InitiateHttpPost initiateHttpPost = new InitiateHttpPost(tenantSettingsRequest,this,BuildConfig.API_URL2);
+        initiateHttpPost.initiatePostRequest();
     }
 
     private BlaashEvents InitialiseBlaashEvents()
@@ -156,5 +171,17 @@ public class BlaashSDK {
             prepareEventAndSend(customer_eventData);
         }
         catch (Exception ignored) {}
+    }
+
+    @Override
+    public void notify(String s) {
+        TenantSettingsResponse response = new Gson().fromJson(s,TenantSettingsResponse.class);
+        try {
+            if (Boolean.parseBoolean(response.getData().getString("KeyValue"))) {
+                publishProductView = PublishProductView.Publish;
+            } else {
+                publishProductView = PublishProductView.Restricted;
+            }
+        } catch (JSONException ignored){}
     }
 }
